@@ -14,6 +14,7 @@ import java.util.*;
          System.out.println("*********************************");
          System.out.println("***Inventory Management System***");
          System.out.println("*********************************");
+         System.out.println("*********************************");
          System.out.println("IMS Option : ");
          System.out.println("1. Add Product");
          System.out.println("2. View All Product");
@@ -22,11 +23,13 @@ import java.util.*;
          System.out.println("5. Exit");
          System.out.println("*********************************");
 
+
          System.out.println();
 
          Inventory inventory = new Inventory();
 
          while (isRunning){
+
 
              System.out.print("Choose an Option: ");
              choice = scanner.nextInt();
@@ -63,12 +66,14 @@ import java.util.*;
                      String updateName = scanner.next();
                      boolean found = false;
                      for (Product p : inventory.getProducts()){
-                         System.out.print("Enter new quantity: ");
-                         int newQuantity = scanner.nextInt();
-                         p.setQuantity(newQuantity);
-                         System.out.println("Successfully Updated!");
-                         found = true;
-                         break;
+                         if (p.getName().equalsIgnoreCase(updateName)) {
+                             System.out.print("Enter new quantity: ");
+                             int newQuantity = scanner.nextInt();
+                             p.setQuantity(newQuantity);
+                             System.out.println("Successfully Updated!");
+                             found = true;
+                             break;
+                         }
                      }
                      if (!found) {
                          System.out.println("product not found");
