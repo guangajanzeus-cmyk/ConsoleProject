@@ -11,12 +11,14 @@ public class MiniInventory
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        int choice;
-        boolean isRunning = true;
-        boolean isPlaying = true;
-        int choices;
+        int mainChoice;
+        boolean ProductRunning = true;
+        boolean ProductDropPlaying = true;
+        boolean StockControlRunning = true;
+        int MainDropChoice;
+        int secondChoice;
 
-        while (isRunning)
+        while (ProductRunning)
         {
 
             System.out.println("Mini Inventory 2.0");
@@ -28,16 +30,16 @@ public class MiniInventory
 
 
             System.out.print("Input your choice: ");
-            choice = scanner.nextInt();
+            mainChoice = scanner.nextInt();
 
             Inventory2point0 inventory2point0 = new Inventory2point0();
 
-            switch (choice)
+            switch (mainChoice)
             {
                 case 1 ->
                 {
 
-                    while (isPlaying) {
+                    while (ProductDropPlaying) {
                         System.out.println("***********");
                         System.out.println("1. Add Product");
                         System.out.println("2. View All Product");
@@ -46,12 +48,12 @@ public class MiniInventory
                         System.out.println("5. Exit the Program");
 
                         System.out.print("Input the choice (1-5): ");
-                        choices = scanner.nextInt();
+                        MainDropChoice = scanner.nextInt();
                         scanner.nextLine();
 
                         System.out.println("******************");
 
-                        switch (choices) {
+                        switch (MainDropChoice) {
 
                             case 1: {
 
@@ -85,6 +87,7 @@ public class MiniInventory
 
                             case 3: {
                                 System.out.print("Enter the product ID: ");
+
                                 int id = scanner.nextInt();
 
                                 ProductManagement found = Inventory2point0.searchById(id);
@@ -101,9 +104,9 @@ public class MiniInventory
                                 }
                                 break;
                             }
-                            case 4 : isPlaying = false;
+                            case 4 : ProductDropPlaying = false;
                             break;
-                            case 5 : isPlaying = false; isRunning = false;
+                            case 5 : ProductDropPlaying = false; ProductRunning = false;
                             break;
                             default : System.out.println("INVALID CHOICE!");
 
@@ -115,8 +118,106 @@ public class MiniInventory
                 case 2 ->
                 {
 
+                    while(StockControlRunning)
+                    {
+
+                        System.out.println("********************");
+                        System.out.println("1. Restock Product");
+                        System.out.println("2. Sell/Reduce Stock");
+                        System.out.println("3. Check Stock");
+                        System.out.println("4. Exit in the Menu");
+                        System.out.println("5. Exit the Program");
+                        System.out.println("********************");
+
+                        System.out.print("Enter your choice (1-3): ");
+                        secondChoice = scanner.nextInt();
+
+                        switch (secondChoice)
+                        {
+                            case 1 :
+                            {
+                                System.out.print("Input the Product ID: ");
+                                int stock = scanner.nextInt();
+                                System.out.print("How many products arrived? : ");
+                                int restock = scanner.nextInt();
+
+                                ProductManagement stocked = Inventory2point0.searchById(stock);
+
+                                if (stocked == null)
+                                {
+                                    System.out.println("No ID product Found!");
+                                }
+                                else
+                                {
+                                    System.out.println("ID FOUND IN THE INVENTORY!");
+                                    int totalQuantity = stocked.getQuantity() + restock;
+
+                                    ArrayList<ProductManagement> products = Inventory2point0.ViewAllProducts();
+                                    for (ProductManagement p : products) {
+                                        System.out.println(
+                                                "ID: " + p.getID()
+                                                        + ", name: " + p.viewProducts()
+                                                        + ", Quantity: " +  totalQuantity
+                                        );
+                                    }
+                                    break;
+
+                                }
+                            }
+
+                            case 2 :
+                            {
+                                System.out.print("Enter the ID of the product: ");
+                                int IDStock = scanner.nextInt();
+                                System.out.print("How many stock have to be reduce? : ");
+                                int reduceStock = scanner.nextInt();
+
+                                ProductManagement reduce = Inventory2point0.searchById(IDStock);
+
+                                if (reduce == null )
+                                {
+                                    System.out.println("ID DIDN'T FOUND!");
+                                }
+                                else
+                                {
+                                    System.out.println("ID FOUND!");
+
+                                    if (reduceStock > reduce.getQuantity())
+                                    {
+                                        System.out.println("Wait, we only have " + reduce.getQuantity());
+                                    }
+                                    else
+                                    {
+                                        int subtract = reduceStock - reduce.getQuantity();
+
+                                        ArrayList<ProductManagement> products = Inventory2point0.ViewAllProducts();
+                                        for (ProductManagement p : products) {
+                                            System.out.println(
+                                                    "ID: " + p.getID()
+                                                            + ", name: " + p.viewProducts()
+                                                            + ", Quantity: " + subtract
+                                            );
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            case 3 :
+                            {
+                                System.out.println();
+                            }
+                            break;
+                            case 4 : StockControlRunning = false;
+                            break;
+                            case 5 : ProductRunning = false;
+                            break;
+                            default:
+                                System.out.println("INVALID CHOICE");
+                        }
+                    }
+
                 }
-                case 4 -> isRunning = false;
+                case 4 -> ProductRunning = false;
                 default -> System.out.println("INVALID CHOICE!");
             }
         }
