@@ -138,7 +138,7 @@ public class MiniInventory
                         scanner.nextLine();
                         switch (secondChoice)
                         {
-                            case 1 :
+                            case 1:
                             {
                                 System.out.print("Input the Product ID: ");
                                 int stock = scanner.nextInt();
@@ -154,19 +154,25 @@ public class MiniInventory
                                 else
                                 {
                                     System.out.println("ID FOUND IN THE INVENTORY!");
-                                    int totalQuantity = stocked.getQuantity() + restock;
 
-                                    ArrayList<ProductManagement> products = Inventory2point0.ViewAllProducts();
-                                    for (ProductManagement p : products) {
+                                    int total = stocked.getQuantity() + restock;
+
+                                    stocked.setQuantity(total);
+
+                                    ArrayList<ProductManagement> products =
+                                            Inventory2point0.ViewAllProducts();
+
+                                    for (ProductManagement p : products)
+                                    {
                                         System.out.println(
                                                 "ID: " + p.getID()
                                                         + ", name: " + p.viewProducts()
-                                                        + ", Quantity: " +  totalQuantity
+                                                        + ", Quantity: " + p.getQuantity()
                                         );
                                     }
-                                    break;
-
                                 }
+
+                                break;
                             }
 
                             case 2 :
@@ -192,7 +198,8 @@ public class MiniInventory
                                     }
                                     else
                                     {
-                                        int subtract = reduceStock - reduce.getQuantity();
+                                        int subtract = reduce.getQuantity() - reduceStock;
+                                        reduce.setQuantity(subtract);
 
                                         ArrayList<ProductManagement> products = Inventory2point0.ViewAllProducts();
                                         for (ProductManagement p : products) {
@@ -200,6 +207,7 @@ public class MiniInventory
                                                     "ID: " + p.getID()
                                                             + ", name: " + p.viewProducts()
                                                             + ", Quantity: " + subtract
+
                                             );
                                         }
                                     }
