@@ -11,10 +11,8 @@ public class MiniInventory
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        int mainChoice;
+        //int mainChoice;
         boolean ProductRunning = true;
-        boolean ProductDropPlaying = true;
-        boolean StockControlRunning = true;
         int MainDropChoice;
         int secondChoice;
 
@@ -30,14 +28,19 @@ public class MiniInventory
 
 
             System.out.print("Input your choice: ");
-            mainChoice = scanner.nextInt();
+            int mainChoice = Integer.parseInt(scanner.nextLine().trim());
 
             Inventory2point0 inventory2point0 = new Inventory2point0();
 
+
             switch (mainChoice)
             {
+
+
                 case 1 ->
                 {
+
+                    boolean ProductDropPlaying = true;
 
                     while (ProductDropPlaying) {
                         System.out.println("***********");
@@ -118,6 +121,7 @@ public class MiniInventory
                 case 2 ->
                 {
 
+                    boolean StockControlRunning = true;
                     while(StockControlRunning)
                     {
 
@@ -129,9 +133,9 @@ public class MiniInventory
                         System.out.println("5. Exit the Program");
                         System.out.println("********************");
 
-                        System.out.print("Enter your choice (1-3): ");
+                        System.out.print("Enter your choice (1-5): ");
                         secondChoice = scanner.nextInt();
-
+                        scanner.nextLine();
                         switch (secondChoice)
                         {
                             case 1 :
@@ -204,9 +208,24 @@ public class MiniInventory
                             }
                             case 3 :
                             {
-                                System.out.println();
+                                System.out.print("Enter the product ID: ");
+                                int id = scanner.nextInt();
+
+                                ProductManagement found = Inventory2point0.searchById(id);
+
+                                if (found == null) {
+                                    System.out.println("No product with that ID");
+
+                                } else {
+                                    System.out.println("ID FOUND!!");
+                                    System.out.println(
+                                            "ID: " + found.getID()
+                                                    + ", name: " + found.viewProducts()
+                                                    + ", Quantity: " + found.getQuantity()
+                                    );
+                                }
+                                break;
                             }
-                            break;
                             case 4 : StockControlRunning = false;
                             break;
                             case 5 : ProductRunning = false;

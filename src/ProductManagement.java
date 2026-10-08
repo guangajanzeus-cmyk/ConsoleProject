@@ -25,6 +25,7 @@ public class ProductManagement {
 
     public int getQuantity() {
         return quantities;
+
     }
     public int getID()
     {
