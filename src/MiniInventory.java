@@ -4,15 +4,16 @@ import java.util.Random;
 
 public class MiniInventory
 {
+    static Scanner scanner = new Scanner(System.in);
+    static boolean ProductRunning = true;
 
     public static void main (String[] args)
     {
 
-        Scanner scanner = new Scanner(System.in);
+
         Random random = new Random();
 
         //int mainChoice;
-        boolean ProductRunning = true;
         int MainDropChoice;
         int secondChoice;
 
@@ -244,12 +245,102 @@ public class MiniInventory
                     }
 
                 }
+                case 3 ->
+                {
+                    InventoryReports();
+                }
                 case 4 -> ProductRunning = false;
                 default -> System.out.println("INVALID CHOICE!");
             }
         }
+        System.out.println("Come back AGAIN!!!");
+        System.out.println("Thanks for using the Computer Program");
 
         scanner.close();
 
+    }
+
+    static int InventoryReports()
+    {
+        boolean isRunning = true;
+
+        while (isRunning) {
+            System.out.println("***********************");
+            System.out.println("1. Total Product Types");
+            System.out.println("2. Total Units in stock");
+            System.out.println("3. Low-stock products");
+            System.out.println("4. Inventory Listing");
+            System.out.println("5. Exit the Menu Program");
+            System.out.println("6 Exit clearly in the program");
+            System.out.println("***********************");
+
+            System.out.print("Enter your Choice (1-4) : ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+
+            switch (choice) {
+                case 1: {
+                    int totalItems = Inventory2point0.ViewAllProducts().size();
+                    System.out.println("Total Product Types: "+totalItems);
+                    break;
+                }
+                case 2 : {
+
+                    int totalQuantity = 0;
+                    ArrayList<ProductManagement> totalQuantities = Inventory2point0.ViewAllProducts();
+                    for (ProductManagement item : Inventory2point0.ViewAllProducts())
+                    {
+                        totalQuantity += item.getQuantity();
+                    }
+                    System.out.println("*******************");
+                    System.out.println("Total Units in stock: " + totalQuantity);
+                    break;
+                }
+                case 3 : {
+
+                    for (ProductManagement lowStockProducts : Inventory2point0.ViewAllProducts()) {
+                        if (lowStockProducts.getQuantity() <= 10) {
+
+                                System.out.println("Item: " + lowStockProducts.viewProducts()+"\n" + "Quantity: " + lowStockProducts.getQuantity() + "\n**************");
+
+                        }
+                    }
+
+                    break;
+                }
+                case 4 :
+                {
+                    ArrayList<ProductManagement> products = Inventory2point0.ViewAllProducts();
+                    if (products.isEmpty()) {
+                        System.out.println("No Products Found in Inventory!");
+                    } else {
+                        System.out.println("Products Found!");
+                        for (ProductManagement p : products) {
+                            System.out.println(
+                                    "ID: " + p.getID()
+                                            + ", name: " + p.viewProducts()
+                                            + ", Quantity: " + p.getQuantity()
+                            );
+                        }
+                    }
+                    break;
+                }
+                case 5 : {
+                    isRunning = false;
+                    break;
+                }
+                case 6 : {
+                    isRunning = false;
+                    ProductRunning = false;
+                    break;
+                }
+                default :
+                    System.out.println("Invalid Choice");
+            }
+        }
+
+
+     return 0;
     }
 }
